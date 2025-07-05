@@ -1,7 +1,13 @@
 import ContactItem from "./ContactItem";
 import SearchBar from "./SearchBar";
 
-function ContactList({ setCurrentView }) {
+function ContactList({ setCurrentView, contacts, setContacts, setSelectedContactId }) {
+  const deleteContactHandler = (id) => {
+    setContacts((contacts) => contacts.filter((contact) => contact.id !== id));
+  };
+
+ 
+
   return (
     <div className="w-screen h-screen bg-[#d5eeff] flex justify-center items-center">
       <div className="w-96 bg-[#fffefd] mx-auto px-5 py-6 rounded-2xl">
@@ -19,10 +25,21 @@ function ContactList({ setCurrentView }) {
           </button>
         </div>
         <div className="max-h-52 overflow-y-auto">
-          <ContactItem setCurrentView={setCurrentView} />
-          <ContactItem setCurrentView={setCurrentView} />
-          <ContactItem setCurrentView={setCurrentView} />
-          <ContactItem setCurrentView={setCurrentView} />
+          {contacts.length ? (
+            <>
+              {contacts.map((contact) => (
+                <ContactItem
+                  key={contact.id}
+                  {...contact}
+                  setCurrentView={setCurrentView}
+                  deleteContactHandler={deleteContactHandler}
+                  setSelectedContactId={setSelectedContactId}
+                />
+              ))}
+            </>
+          ) : (
+            <p className="text-center text-xl">No Contacts Yet</p>
+          )}
         </div>
       </div>
     </div>
