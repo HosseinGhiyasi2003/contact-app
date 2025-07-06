@@ -21,7 +21,7 @@ function AddContactForm({ setCurrentView, setContacts }) {
 
   const handleInputChange = (e) => {
     const { name, value } = e.target;
-    setNewContact((prevContact) => ({ ...prevContact, [name]: value }));
+    setNewContact((prevContact) => ({ ...prevContact, [name]: value, selected: false }));
   };
 
   return (
