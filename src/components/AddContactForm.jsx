@@ -6,9 +6,12 @@ function AddContactForm({ setCurrentView, setContacts }) {
     lastName: "",
     email: "",
   });
+  const [errors, setErrors] = useState({});
 
   const saveContactHandler = (e) => {
     e.preventDefault();
+
+    if (!validateForm()) return;
 
     const contactWithId = {
       ...newContact,
@@ -21,7 +24,32 @@ function AddContactForm({ setCurrentView, setContacts }) {
 
   const handleInputChange = (e) => {
     const { name, value } = e.target;
-    setNewContact((prevContact) => ({ ...prevContact, [name]: value, selected: false }));
+    setNewContact((prevContact) => ({
+      ...prevContact,
+      [name]: value,
+      selected: false,
+    }));
+    setErrors((prev) => ({ ...prev, [name]: "" }));
+
+  };
+
+  const validateForm = () => {
+    const newErrors = {};
+    if (!newContact.name) {
+      newErrors.name = "Name is required";
+    }
+    if (!newContact.lastName) {
+      newErrors.lastName = "Last name is required";
+    }
+    if (!newContact.email) {
+      newErrors.email = "Email is required";
+    } else if (
+      !/^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/.test(newContact.email)
+    ) {
+      newErrors.email = "You have entered an invalid email address";
+    }
+    setErrors(newErrors);
+    return Object.keys(newErrors).length === 0;
   };
 
   return (
@@ -39,9 +67,13 @@ function AddContactForm({ setCurrentView, setContacts }) {
               onChange={handleInputChange}
               value={newContact.name}
               name="name"
-              className="bg-[#f8fffe] border-2 border-[#b5e2de] rounded-[10px] outline-0 px-3 py-2"
+              className={`bg-[#f8fffe] border-2 ${
+                errors.name ? "border-red-400" : "border-[#b5e2de]"
+              } rounded-[10px] outline-0 px-3 py-2`}
             />
-            <span></span>
+            {errors.name && (
+              <span className="text-red-500 text-sm">{errors.name}</span>
+            )}
           </div>
           <div className="flex flex-col mt-3">
             <label htmlFor="last-name" className="font-medium">
@@ -53,9 +85,13 @@ function AddContactForm({ setCurrentView, setContacts }) {
               onChange={handleInputChange}
               value={newContact.lastName}
               name="lastName"
-              className="bg-[#f8fffe] border-2 border-[#b5e2de] rounded-[10px] outline-0 px-3 py-2"
+              className={`bg-[#f8fffe] border-2 ${
+                errors.lastName ? "border-red-400" : "border-[#b5e2de]"
+              } rounded-[10px] outline-0 px-3 py-2`}
             />
-            <span></span>
+            {errors.lastName && (
+              <span className="text-red-500 text-sm">{errors.lastName}</span>
+            )}
           </div>
           <div className="flex flex-col mt-3">
             <label htmlFor="email" className="font-medium">
@@ -67,9 +103,13 @@ function AddContactForm({ setCurrentView, setContacts }) {
               onChange={handleInputChange}
               value={newContact.email}
               name="email"
-              className="bg-[#f8fffe] border-2 border-[#b5e2de] rounded-[10px] outline-0 px-3 py-2"
+              className={`bg-[#f8fffe] border-2 ${
+                errors.email ? "border-red-400" : "border-[#b5e2de]"
+              } rounded-[10px] outline-0 px-3 py-2`}
             />
-            <span></span>
+            {errors.email && (
+              <span className="text-red-500 text-sm">{errors.email}</span>
+            )}
           </div>
           <div className="flex gap-x-3 mt-5">
             <button
