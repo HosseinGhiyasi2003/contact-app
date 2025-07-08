@@ -8,6 +8,9 @@ function ContactList({
   contacts,
   setContacts,
   setSelectedContactId,
+  showToast,
+  setToast,
+  setIsSuccess
 }) {
   const [searchInput, setSearchInput] = useState("");
   const [searchTerm, setSearchTerm] = useState("");
@@ -17,6 +20,8 @@ function ContactList({
 
   const deleteContactHandler = (id) => {
     setContacts((contacts) => contacts.filter((contact) => contact.id !== id));
+    setIsSuccess(false)
+    showToast('Contact deleted!', setToast)
   };
 
   useEffect(() => {
@@ -41,6 +46,7 @@ function ContactList({
     setContacts((prevContacts) =>
       prevContacts.filter((contact) => !contact.selected)
     );
+    showToast('Selected contacts deleted!', setToast)
   };
 
   const toggleSelect = (id) => {
@@ -95,6 +101,7 @@ function ContactList({
                     setModalMode={setModalMode}
                     setTargetId={setTargetId}
                     setIsModalOpen={setIsModalOpen}
+                
                   />
                 ))}
               </>

@@ -1,6 +1,6 @@
 import { useState } from "react";
 
-function AddContactForm({ setCurrentView, setContacts }) {
+function AddContactForm({ setCurrentView, setContacts, showToast, setToast, setIsSuccess }) {
   const [newContact, setNewContact] = useState({
     name: "",
     lastName: "",
@@ -20,6 +20,9 @@ function AddContactForm({ setCurrentView, setContacts }) {
 
     setContacts((prevContacts) => [...prevContacts, contactWithId]);
     setCurrentView("list");
+
+    setIsSuccess(true)
+    showToast('Contact added successfully!', setToast)
   };
 
   const handleInputChange = (e) => {

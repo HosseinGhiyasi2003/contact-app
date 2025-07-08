@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 
-function EditContactForm({ setCurrentView, contacts, setContacts, contact }) {
+function EditContactForm({ setCurrentView, contacts, setContacts, contact, showToast, setToast, setIsSuccess }) {
   const [editedContact, setEditedContact] = useState({
     name: "",
     lastName: "",
@@ -23,6 +23,9 @@ function EditContactForm({ setCurrentView, contacts, setContacts, contact }) {
     );
     setContacts(updatedContacts);
     setCurrentView("list");
+
+    setIsSuccess(true)
+    showToast('Contact updated successfully!', setToast)
   };
 
   const validateForm = () => {
