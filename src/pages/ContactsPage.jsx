@@ -1,6 +1,10 @@
+import ContactsList from "../components/ContactsList"
+
 function ContactsPage() {
   return (
-    <div>ContactsPage</div>
+    <>
+      <ContactsList/>
+    </>
   )
 }
 
