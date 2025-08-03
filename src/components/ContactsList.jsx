@@ -20,10 +20,10 @@ function ContactsList() {
       }
     };
     fetchGetContact();
-  }, [state.contacts]);
+  }, []);
 
   return (
-    <section className="bg-[#fbfbfa] max-w-[500px] p-3 rounded-md shadow-2xl mt-14 mx-3">
+    <section className="bg-[#fbfbfa] w-[500px] p-3 rounded-md shadow-2xl mt-14 mx-3">
       <div className="flex justify-between">
         <h2 className="text-[22px] font-semibold">Contact List</h2>
         <Link
@@ -41,6 +41,8 @@ function ContactsList() {
           <div className="w-full flex justify-center pt-5">
             <ClipLoader color="#0e5ffd" loading size={50} />
           </div>
+        ) : state.contacts.length === 0 ? (
+          <p className="text-center py-5 text-2xl font-semibold">No Results</p>
         ) : (
           <table className="w-full mx-auto mt-4">
             <thead>
