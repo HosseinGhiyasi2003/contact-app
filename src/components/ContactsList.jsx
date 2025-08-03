@@ -1,8 +1,27 @@
 import { Link } from "react-router-dom";
 import SearchBox from "./SearchBox";
 import ContactItem from "./ContactItem";
+import { useContacts } from "../context/ContactsContext";
+import { useEffect } from "react";
+import axios from "axios";
+import { getContacts } from "../services/contactsService";
+import { ClipLoader } from "react-spinners";
 
 function ContactsList() {
+  const { state, dispatch } = useContacts();
+
+  useEffect(() => {
+    const fetchGetContact = async () => {
+      try {
+        const response = await axios.get(getContacts());
+        dispatch({ type: "GET_CONTACTS", payload: response.data });
+      } catch (error) {
+        dispatch({ type: "ERROR_TYPE", payload: error.message });
+      }
+    };
+    fetchGetContact();
+  }, [state.contacts]);
+
   return (
     <section className="bg-[#fbfbfa] max-w-[500px] p-3 rounded-md shadow-2xl mt-14 mx-3">
       <div className="flex justify-between">
@@ -18,18 +37,26 @@ function ContactsList() {
         <SearchBox />
       </div>
       <div className="max-h-80 overflow-y-auto">
-        <table className="w-full mx-auto mt-4">
-          <thead>
-            <tr className="text-left">
-              <th className="pb-2 pl-2">Name</th>
-              <th className="pb-2 pl-4">Email</th>
-              <th className="pb-2 pl-15">Action</th>
-            </tr>
-          </thead>
-          <tbody>
-            <ContactItem />
-          </tbody>
-        </table>
+        {state.isLoading ? (
+          <div className="w-full flex justify-center pt-5">
+            <ClipLoader color="#0e5ffd" loading size={50} />
+          </div>
+        ) : (
+          <table className="w-full mx-auto mt-4">
+            <thead>
+              <tr className="text-left">
+                <th className="pb-2 pl-2">Name</th>
+                <th className="pb-2 pl-4">Email</th>
+                <th className="pb-2 pl-15">Action</th>
+              </tr>
+            </thead>
+            <tbody>
+              {state.contacts.map((contact) => (
+                <ContactItem key={contact.id} data={contact} />
+              ))}
+            </tbody>
+          </table>
+        )}
       </div>
     </section>
   );
