@@ -8,7 +8,7 @@ const routes = [
   { path: "/", element: <Navigate to="/contacts" replace={true} /> },
   { path: "/contacts", element: <ContactsPage /> },
   { path: "/add-contact", element: <AddContactPage /> },
-  { path: "/edit-contact", element: <EditContactPage /> },
+  { path: "/edit-contact/:contactId", element: <EditContactPage /> },
   { path: "/contact/:contactId", element: <ContactDetailsPage /> },
 ];
 

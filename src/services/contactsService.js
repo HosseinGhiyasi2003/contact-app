@@ -5,5 +5,7 @@ const BASE_URL = "http://localhost:3001/contacts";
 const getContacts = () => BASE_URL;
 const createContact = (newContact) => axios.post(BASE_URL, newContact);
 const deleteContact = (id) => axios.delete(`${BASE_URL}/${id}`);
+const updateContact = (id, updatedContact) =>
+  axios.put(`${BASE_URL}/${id}`, updatedContact);
 
-export { getContacts, createContact, deleteContact };
+export { getContacts, createContact, deleteContact, updateContact };

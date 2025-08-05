@@ -2,7 +2,6 @@ import { createContext, useContext, useReducer } from "react";
 
 const initialState = {
   contacts: [],
-  filteredContacts: [],
   isLoading: true,
   error: null,
 };
@@ -17,11 +16,13 @@ const contactReducer = (state, action) => {
     return { ...state, contacts: [...state.contacts, action.payload] };
     case 'DELETE_CONTACT': 
     return { ...state, contacts: state.contacts.filter(contact => contact.id !== action.payload) };
-
+    case 'UPDATE_CONTACT': 
+    return { ...state, contacts: state.contacts.map(contact => contact.id === action.payload.id)}
     default:
       return state;
   }
 };
+
 
 const ContactsContext = createContext();
 
@@ -38,3 +39,10 @@ function ContactsProvider({ children }) {
 export default ContactsProvider;
 
 export const useContacts = () => useContext(ContactsContext);
+
+export const useContactDetails = id => {
+  const contacts = useContext(ContactsContext).state
+  const result = contacts.contacts.find(contact => contact.id === id)
+
+  return result
+}

@@ -33,9 +33,6 @@ function ContactsList() {
           Add Contact
         </Link>
       </div>
-      <div className="mt-3">
-        <SearchBox />
-      </div>
       <div className="max-h-80 overflow-y-auto">
         {state.isLoading ? (
           <div className="w-full flex justify-center pt-5">
